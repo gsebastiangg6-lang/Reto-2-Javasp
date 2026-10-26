@@ -5,25 +5,25 @@ const estudiantes = [
   { id: 3, nombre: 'María', edad: 21 },
 ];
 
-// 2. Función que busca por ID y retorna una Promesa
+// 2. Función que recibe el ID de un estudiante y retorna una Promesa
 function buscarEstudiantePorId(id) {
   return new Promise((resolve, reject) => {
-    // .find() recorre el arreglo y devuelve el primer objeto cuyo id coincida
+    // Búsqueda sobre el arreglo proporcionado
     const estudianteEncontrado = estudiantes.find(estudiante => estudiante.id === id);
 
-    // Si lo encuentra, la promesa se resuelve (éxito)
     if (estudianteEncontrado) {
+      // Si existe, la promesa se resuelve devolviendo la información del estudiante
       resolve(estudianteEncontrado);
     } else {
-      // Si no existe, la promesa se rechaza (error)
+      // Si no existe, la promesa se rechaza con el mensaje de error exacto
       reject(`Error: No existe un estudiante con el ID ${id}.`);
     }
   });
 }
 
-// --- PRUEBAS SOLICITADAS EN EL EJERCICIO ---
+// 3. Mostrar el resultado en consola utilizando .then() y .catch()
+// Encadenamos las llamadas para que salgan en el orden exacto de la guía
 
-// Caso 1: Búsqueda del estudiante con ID 2
 console.log("Búsqueda del estudiante con ID 2");
 buscarEstudiantePorId(2)
   .then(estudiante => {
@@ -32,22 +32,22 @@ buscarEstudiantePorId(2)
   })
   .catch(error => {
     console.log(error);
-  });
-
-// Caso 2: Búsqueda del estudiante con ID 1
-console.log("Búsqueda del estudiante con ID 1");
-buscarEstudiantePorId(1)
+  })
+  .then(() => {
+    console.log("Búsqueda del estudiante con ID 1");
+    return buscarEstudiantePorId(1);
+  })
   .then(estudiante => {
     console.log(`Nombre: ${estudiante.nombre}, Edad: ${estudiante.edad}`);
     console.log("------------------------");
   })
   .catch(error => {
     console.log(error);
-  });
-
-// Caso 3: Búsqueda del estudiante con ID 10 (No existe)
-console.log("Búsqueda del estudiante con ID 10");
-buscarEstudiantePorId(10)
+  })
+  .then(() => {
+    console.log("Búsqueda del estudiante con ID 10");
+    return buscarEstudiantePorId(10);
+  })
   .then(estudiante => {
     console.log(`Nombre: ${estudiante.nombre}, Edad: ${estudiante.edad}`);
   })
